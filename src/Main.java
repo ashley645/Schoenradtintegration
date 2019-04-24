@@ -7,28 +7,24 @@ import java.util.Scanner;
 
 public class Main {
 
-	public static ArrayList<Order> Orders = new ArrayList<Order>();
-	public static MenuItem[] Drinks = new MenuItem[100];
+	public static ArrayList<Order> orders = new ArrayList<Order>();
+	public static MenuItem[] drinks = new MenuItem[100];
 	public static Scanner scanner;
-	public static boolean Run[][] = new boolean[1][1];
-
+	public static boolean run[][] = new boolean[1][1];
 	
-
-	// booleans binary variables that have two possible values, usually true or
-	// false.
+	
+	//This is the main function, all it does it initiate the scanner and start the program
 	public static void main(String[] args) {
-		// This is the main method, or the starting point of the project.
-		/*
-		 * public means that the method is visible and can be called from other objects
-		 * of other types. This means that you can call a static method without creating
-		 * an object of the class. void means that the method has no return value.
-		 */
-		createOriginalDrinks();
 		scanner = new Scanner(System.in);
-		
-		Run[0][0] = true;
+		runProgram();
+	}
+	
+	//first it creates some drinks to go in the menu, then it starts a while loop that will keep running until run is set to false.
+	public static void runProgram() {
+		createOriginalDrinks();
+		run[0][0] = true;
 
-		while (Run[0][0]) {
+		while (run[0][0]) {
 			printMainMenu();
 			try {
 				int i = scanner.nextInt();
@@ -44,40 +40,40 @@ public class Main {
 		}
 		System.out.println("Goodbye!");
 		System.exit(0);
-
 	}
 
+	//This creates 3 drinks to go on the menu
 	public static void createOriginalDrinks() {
 		MenuItem m = new MenuItem("Coffee", 3.31);
-		Drinks[3] = m;
+		drinks[3] = m;
 
 		MenuItem n = new MenuItem("Latte", 3.15);
-		Drinks[1] = n;
+		drinks[1] = n;
 		
-		MenuItem o = new MenuItem("Iced Coffee", 3.15);
-		Drinks[2] = o;
+		MenuItem o = new MenuItem("Iced Coffee", 3.25);
+		drinks[2] = o;
 	}
 	
-	//overload method
+	//overloaded the createOriginal drinks to make more expensive drinks if you pass in true
 	public static void createOriginalDrinks(Boolean expensive) {
 		
 		if(expensive) {
 			MenuItem m = new MenuItem("Coffee", 20.31);
-			Drinks[3] = m;
+			drinks[3] = m;
 
 			MenuItem n = new MenuItem("Latte", 30.15);
-			Drinks[1] = n;
+			drinks[1] = n;
 
 			MenuItem o = new MenuItem("Iced Coffee", 30.15);
-			Drinks[2] = o;
+			drinks[2] = o;
 		}else {
 			createOriginalDrinks();
 		}
 	}
+	
+	
 
-	// This is my coffee menu function of original drinks. I used classes and
-	// strings to create theses
-	// menu items.
+	//This function prints out the menu options
 	public static void printMainMenu() {
 		System.out.println("\n\nWelcome to the Coffee Creator!\n\n");
 		System.out.println("\t1.Order a drink.");
@@ -88,9 +84,7 @@ public class Main {
 
 	}
 
-	// This is my main menu that will print first in the program.
-	// \n is an escape sequence that inserts a newline. \t is an escape sequence
-	// that inserts a tab.
+	//this function is called after the user gives some answer for the menu, it uses a switch case to decide which option the user picked
 	public static void mainMenuInput(int i) {
 
 		switch (i) {
@@ -117,27 +111,23 @@ public class Main {
 
 	}
 
-	// I used a switch case to create user input to select an option from the main
-	// menu.
-	// a switch statement is a multi-branch statement that provides an easy way to
-	// execute different
-	// parts of code.
+	//This is just a shortcut function for System.out.print
 	public static void print(String s) {
 		System.out.print(s);
 	}
-
+	//This is a shortcut function for System.out.println
 	public static void println(String s) {
 		System.out.println(s);
 	}
 
+	//This function creates a new drink order. First it asks for a name, then lets you pick a drink, then it saves the drink in the array
 	public static void orderADrink() {
 		String name = askName();
 		int drink = askDrink();
 		createOrder(drink, name);
 	}
 
-	// this function tells the CreateOrder function to expect a String and an int
-	// from the user.
+	//This lets the user create a new item to go on the menu. First it asks for a drink name, then a price, then it saves the menu item in the List
 	public static void createMenuItemUserInput() {
 		String DrinkName = drinkName();
 		double price = customOrderPrice();
@@ -145,22 +135,20 @@ public class Main {
 
 	}
 
-	// This function tells the CreateMenuItem function to expect a String and a
-	// double from the user.
+	//This asks for a price, and returns the price they entered
 	public static double customOrderPrice() {
 		System.out.println("Please provide a price.\n");
 		double i = getDouble();
 		return i;
 	}
 
-	// this function expects a double from the user.
+	//This asks for a name, and then returns the name the user entered
 	public static String drinkName() {
 		System.out.println("Please provide the name of drink.");
 		return scanner.nextLine();
 	}
 
-	// This string prints out "please provide the name of drink" and expects user to
-	// return a string
+	//This asks for a name, and returns the name the user entered. It also can catch an error if the user entered something bad.  
 	public static String askName() {
 			
 		try {
@@ -178,9 +166,7 @@ public class Main {
 		}	
 	}
 
-	// This string prints out "please provide the name of the drink" and expects
-	// user to return a
-	// string
+	//this function asks the user to select a drink from the menu, and returns whatever number they enter. If they enter 0 it just returns 0 which we will turn into a random drink later. 
 	public static int askDrink() {
 		System.out.println("Please select a drink, or enter 0 for random.\n");
 		printDrinkMenu();
@@ -188,9 +174,7 @@ public class Main {
 		return i;
 	}
 
-	// this function prints out "please select a drink" and expects an int from the
-	// user. Also prints
-	// out drink menu.
+	//This function takes the index of a drink, and the name the user entered, and creates a drink order. Then it displays the orders. 
 	public static void createOrder(int i, String name) {
 		Order o = new Order();
 		MenuItem m = getDrink(i);
@@ -201,9 +185,7 @@ public class Main {
 		displayAllOrders();
 	}
 
-	// this function expects an int and a string from the user, name and menu item.
-	// It then creates
-	// the order with the info given from the user.
+	//This takes a drink name and price to create a new menu item. It can also check for existing drink names! 
 	public static void createMenuItem(String DrinkName, Double price) {
 		MenuItem m = new MenuItem();
 		m.setDrinkName (DrinkName);
@@ -214,13 +196,13 @@ public class Main {
 			createMenuItem(m);
 		}
 	}
-	//this function checks drink name for a duplicate name. 
-	// then is prints out that the drink name is already taken if it is
-
+	
+	
+	//checks for existing drink names by comparing a string to every existing menu item and returns true or false 
 	public static Boolean checkForDuplicate(String s) {
 
-		for (int i = 1; i < Drinks.length - 1; i++) {
-			if (Drinks[i] != null && (Drinks[i].getDrinkName().compareTo(s) == 0 || Drinks[i].getDrinkName().equals(s))) {
+		for (int i = 1; i < drinks.length - 1; i++) {
+			if (drinks[i] != null && (drinks[i].getDrinkName().compareTo(s) == 0 || drinks[i].getDrinkName().equals(s))) {
 				// == compares object references, it checks to see if the two operands point to
 				// the same object
 				return true;
@@ -230,13 +212,7 @@ public class Main {
 
 	}
 
-	// casting forces Java to treat a variable as a different data type...
-	// MenuItem m is a string and a double and can be cast to a string and a
-	// double.. to create menu
-	// item.
-	// this function expects a string and a double from the user, the drink name and
-	// price, then
-	// creates them into the coffee menu.
+	//This function just accepts an int from the user and can handle errors! If it runs into an error it will call itself again to try again until it can return a valid int!
 	public static int getNumber() {
 
 		try {
@@ -255,6 +231,7 @@ public class Main {
 		}	
 	}
 
+	//This is just like the above function but asks for and returns a double
 	public static double getDouble() {
 		
 		
@@ -272,19 +249,21 @@ public class Main {
 			scanner.nextLine();
 			return getDouble();
 		}
+		
 
 	}
 
+	//this function returns a drink at an index you select, but if you give it a 0 it will give you a random drink instead. 
 	public static MenuItem getDrink(int x) {
 		int count = getMenuItemCount();
-		return x == 0 ? Drinks[1 + (int) (Math.random() * ((count - 1) + 1))] : Drinks[x];
+		return x == 0 ? drinks[1 + (int) (Math.random() * ((count - 1) + 1))] : drinks[x];
 	}
-	//will give a random drink from drink menu when user enters 0
-
+	
+	//this uses a for loop to get the number of drinks on the menu
 	public static int getMenuItemCount() {
 		int count = 0;
-		for (int i = 1; i < Drinks.length - 1; i++) {
-			if (Drinks[i] != null) {
+		for (int i = 1; i < drinks.length - 1; i++) {
+			if (drinks[i] != null) {
 				count += 2;
 				count--;
 			}
@@ -292,24 +271,23 @@ public class Main {
 		return count;
 	}
 
+	//This just displays the drink menu
 	public static void printDrinkMenu() {
 		System.out.println("\n");
-		for (int i = 1; i < Drinks.length - 1; i++) {
-			if (Drinks[i] != null) {
-				System.out.println(i + ". " + Drinks[i].getDrinkName() + "\t$" + Drinks[i].getPrice());
+		for (int i = 1; i < drinks.length - 1; i++) {
+			if (drinks[i] != null) {
+				System.out.println(i + ". " + drinks[i].getDrinkName() + "\t$" + drinks[i].getPrice());
 
 			}
 		}
-		//will print drink menu
 		System.out.println("\n");
-
 	}
 
-	// this just prints a new line.
+	// this will display all orders using a for each loop
 	public static void displayAllOrders() {
 		int i = 1;
 		
-		for(Order o : Orders) {
+		for(Order o : orders) {
 			
 			System.out.println(i + ". Name: " + o.Name + "\t Price: $" + o.Price + "\tDrink: "
 					+ o.Drink);
@@ -317,42 +295,38 @@ public class Main {
 		}
 	}
 
-	// this displays all orders and prints the name, price, and drink of the order.
+	//creates an order when you pass in an Order object 
 	public static void createOrder(Order o) {
-		Orders.add(o);
+		orders.add(o);
 	}
 
-	// Orders is an array. Adds order to empty spot and then stops looping and saves
-	// the new order.
-	// for(int i=1; i<Orders.length-1; i++) is a for loop.
+	//creates a menu item when you pass in a menu item object 
 	public static void createMenuItem(MenuItem m) {
-		for (int i = 1; i < Drinks.length - 1; i++) {
-			if (Drinks[i] == null) {
-				Drinks[i] = m;
+		for (int i = 1; i < drinks.length - 1; i++) {
+			if (drinks[i] == null) {
+				drinks[i] = m;
 				break;
 			}
 		}
 	}
 
-	// Drinks is an array. Adds drink to empty spot and then stops looping and saves
-	// the new drink to
-	// the menu. For loop is looping through the array.
-	
+	//loops through the drinks and returns the cheapest one
 	public static MenuItem getCheapestDrink() {
 		MenuItem cheapo = null;
-		for (int i = 1; i < Drinks.length - 1; i++) {
-			if ((Drinks[i] != null && cheapo == null) || (cheapo != null && Drinks[i] != null && Drinks[i].getPrice() < cheapo.getPrice())) {
-				cheapo = Drinks[i];
+		for (int i = 1; i < drinks.length - 1; i++) {
+			if ((drinks[i] != null && cheapo == null) || (cheapo != null && drinks[i] != null && drinks[i].getPrice() < cheapo.getPrice())) {
+				cheapo = drinks[i];
 			}
 		}
 		return cheapo;
 	}
-	//This loops through the array and finds the lowest value in the array
 	
+	
+	//uses an accumulator to add up all the price of the menu items
 	public static double getTotalPriceOfAllMenuItems() {
 		double accumulator = 0;
 		
-		for (MenuItem drink : Drinks) {
+		for (MenuItem drink : drinks) {
 			if (drink != null) {
 				accumulator += drink.getPrice();
 			}
@@ -360,13 +334,17 @@ public class Main {
 		return accumulator;
 	}
 	
+	
+	
+	
+	//this will set run to false, and it uses a % to calculate even or odd. It will tell you if there is an even or odd number of items on the menu, and the total price of all items. 
 	public static void quit() {
-		Run[0][0] = false;
+		run[0][0] = false;
 
 		if (getMenuItemCount() % 2 == 1) {
 			do {
 				println("Theres an odd number of items on the menu. ");
-			} while (Run[0][0]);
+			} while (run[0][0]);
 
 		} else {
 			println("Theres an even number of items on the menu. ");
@@ -375,8 +353,6 @@ public class Main {
 		System.out.println("Also, the total cost of the items on the drink menu is: $"+getTotalPriceOfAllMenuItems());
 
 	}
-	// boolean that ends program.
-	// also will check how many items are in the menu before it quits the program 
 }
 
 /*
@@ -401,4 +377,4 @@ public class Main {
 
 // Variable is a
 // Scope is where a variable is only available where the method is prepared.
-//control+shift+f to format
+// control+shift+f to format
